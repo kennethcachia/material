@@ -403,7 +403,7 @@
        */
       document.addEventListener('click', function clickHijacker(ev) {
         var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
-        if (!isKeyClick && !ev.$material) {
+        if (!isFromGoogleMap(ev) && !isKeyClick && !ev.$material) {
           ev.preventDefault();
           ev.stopPropagation();
         }
@@ -423,6 +423,17 @@
       .on('$$mdGestureReset', function gestureClearCache () {
         lastPointer = pointer = null;
       });
+
+    /*
+     * Checks if an event originates from within a Google Map.
+     * @param event The event to be checked.
+     */
+    function isFromGoogleMap(event) {
+      // TODO: Improve this horrible quickfix.
+      // If clicks originate from within a Google Map (ex: markers),
+      // the event target's parent has an __e3_ property.
+      return (event.target.parentNode && event.target.parentNode.__e3_);
+    }
 
     /*
      * When a DOM event happens, run all registered gesture handlers' lifecycle
