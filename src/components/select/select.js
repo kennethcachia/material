@@ -239,6 +239,9 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $compile, $par
         $parse(attr.mdOnClose)(scope);
       };
 
+
+      mdSelectCtrl.open = showSelect;
+
       scope.$$postDigest(function() {
         setAriaLabel();
         syncLabelText();
@@ -384,7 +387,10 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $compile, $par
 
       function openSelect() {
         selectScope.isOpen = true;
-
+        showSelect();
+      }
+      
+      function showSelect() {
         $mdSelect.show({
           scope: selectScope,
           preserveScope: true,
