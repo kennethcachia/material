@@ -225,6 +225,9 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, 
         $parse(attr.mdOnClose)(scope);
       };
 
+
+      mdSelectCtrl.open = showSelect;
+
       scope.$$postDigest(function() {
         setAriaLabel();
         syncLabelText();
@@ -362,7 +365,10 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, 
 
       function openSelect() {
         scope.$apply('isOpen = true');
-
+        showSelect();
+      }
+      
+      function showSelect() {
         $mdSelect.show({
           scope: selectScope,
           preserveScope: true,
