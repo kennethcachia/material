@@ -3,20 +3,35 @@ angular.module('material.core')
     .service('$mdRemoteUI', RemoteUI);
 
 
-function RemoteUI() {
+function RemoteUI($mdComponentRegistry) {
 
-  function getCtrl(element, ctrlName) {
-    return element.controller(ctrlName);
+
+  function register(ctrl, mdComponentId, api) {
+    // Skip registration if the component does not have an md-component-id attribute.
+    if (!mdComponentId) {
+      return;
+    }
+
+    ctrl._remoteAPI = api;
+    ctrl.destroy = $mdComponentRegistry.register(ctrl, mdComponentId);
   }
 
 
-  function openSelect(element) {
-    getCtrl(element, 'mdSelect').open();
+  function getRemoteAPI(mdComponentId) {
+    var ctrl = $mdComponentRegistry.get(mdComponentId);
+    var api = (ctrl && ctrl._remoteAPI);
+    
+    if (!api) {
+      throw new Error('Element does not have a remote API (id: ' + mdComponentId + ')');
+    }
+    
+    return api;
   }
 
 
   return {
-    openSelect: openSelect
+    register: register,
+    getRemoteAPI: getRemoteAPI
   };
 }
 
