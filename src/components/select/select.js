@@ -71,7 +71,7 @@ angular.module('material.components.select', [
  *   </md-input-container>
  * </hljs>
  */
-function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, $compile, $parse, $mdRemoteUI) {
+function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, $compile, $parse, $mdComponentRegistry) {
   return {
     restrict: 'E',
     require: ['^?mdInputContainer', 'mdSelect', 'ngModel', '?^form'],
@@ -229,7 +229,7 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, 
       mdSelectCtrl.open = showSelect;
 
       // Allow this component to be accessed remotely.
-      $mdRemoteUI.register(mdSelectCtrl, attr.mdComponentId, {
+      $mdComponentRegistry.register(mdSelectCtrl, attr.mdComponentId, {
         open: mdSelectCtrl.open,
         close: mdSelectCtrl.triggerClose
       });
